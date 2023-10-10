@@ -1,12 +1,18 @@
 # crud
 ## intro
 crud is a tool for generate api defined files from datasource.
-datasource supported:
+
+**datasource supported:**
 1. mysql
 
-api files supported:
+**api files supported:**
 1. proto3
 2. zero api
+
+## install
+```bash
+go install github.com/kelvinkuo/crud@latest
+```
 
 ## usage
 ...
@@ -20,6 +26,7 @@ api files supported:
 - [X] args parser
 - [X] project layout
 - [X] api file support
+- [ ] fully test
 - [ ] document
   - [ ] comment
   - [ ] README
