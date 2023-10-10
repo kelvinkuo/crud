@@ -17,11 +17,11 @@ type List struct {
 
 func (c *List) ItemCreate(table db.Table, service string, filters []convert.ColumnFilter) (protocol.Item, error) {
     req := factory.NewMessage(consts.ProtoBuf, fmt.Sprintf("%sListReq", tools.UpperCamelCase(table.Name())))
-    err := req.AddField(pb.NewField("page", "int", 1, "", false))
+    err := req.AddField(pb.NewField("page", "int32", 1, "", false))
     if err != nil {
         return nil, err
     }
-    err = req.AddField(pb.NewField("pageSize", "int", 2, "", false))
+    err = req.AddField(pb.NewField("pageSize", "int32", 2, "", false))
     if err != nil {
         return nil, err
     }

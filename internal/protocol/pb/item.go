@@ -16,5 +16,5 @@ func NewItem(name string, comment string, service string, request protocol.Messa
 }
 
 func (i *Item) String(indent int) string {
-    return fmt.Sprintf("%srpc %s(%s) returns (%s)", tools.Blank(indent), i.Name(), i.Request().Name(), i.Response().Name())
+    return fmt.Sprintf("%srpc %s(%s) returns (%s);", tools.Blank(indent), i.Name(), i.Request().Name(), i.Response().Name())
 }
