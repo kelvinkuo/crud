@@ -1,8 +1,8 @@
 package convert
 
 import (
-    "github.com/kelvinkuo/crud/db"
-    "github.com/kelvinkuo/crud/protocol"
+    "github.com/kelvinkuo/crud/internal/db"
+    "github.com/kelvinkuo/crud/internal/protocol"
 )
 
 type ItemCreator interface {

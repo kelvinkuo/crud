@@ -1,9 +1,9 @@
 package dbfactory
 
 import (
-    "github.com/kelvinkuo/crud/consts"
-    "github.com/kelvinkuo/crud/db"
-    "github.com/kelvinkuo/crud/db/mysql"
+    "github.com/kelvinkuo/crud/internal/consts"
+    "github.com/kelvinkuo/crud/internal/db"
+    "github.com/kelvinkuo/crud/internal/db/mysql"
 )
 
 func NewDB(dbType string) db.DB {

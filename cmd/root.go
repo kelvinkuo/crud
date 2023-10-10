@@ -1,85 +1,140 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
 package cmd
 
 import (
-	"fmt"
-	"os"
-	"github.com/spf13/cobra"
-
-	"github.com/spf13/viper"
+    "fmt"
+    "log"
+    "os"
+    "strings"
+    
+    "github.com/kelvinkuo/crud/internal/consts"
+    "github.com/kelvinkuo/crud/internal/core/convert/convertfactory"
+    "github.com/kelvinkuo/crud/internal/core/convert/filter"
+    "github.com/kelvinkuo/crud/internal/db/dbfactory"
+    "github.com/kelvinkuo/crud/internal/protocol/protocolfactory"
+    "github.com/spf13/cobra"
 )
 
-var cfgFile string
+var (
+    format       string
+    datasource   string
+    methodStr    string
+    methods      []string
+    ignoreColStr string
+    ignoreCols   []string
+    tableStr     string
+    tableNames   []string
+    service      string
+    goPackage    string
+    pkg          string
+)
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "crud",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+    Use:   "crud",
+    Short: "generate CRUD defined content from datasource",
+    Long: `Generate CRUD defined content from datasource.
+Database supported: mysql
+Format Support: proto3, zero api
+Full example:
+crud -f proto3 --source "root:123456@tcp(127.0.0.1:3306)/shop" -m "add,delete,update,info,search" -c "created_at,updated_at,deleted_at" -t * -s shop -go_package shop -package shop
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+Common example:
+crud -f zeroapi --source "root:123456@tcp(127.0.0.1:3306)/shop" -s shop
+
+`,
+    Run: func(cmd *cobra.Command, args []string) {
+        // flags
+        methods = strings.Split(methodStr, ",")
+        ignoreCols = strings.Split(ignoreColStr, ",")
+        if tableStr != "*" {
+            tableNames = strings.Split(tableStr, ",")
+        }
+        if goPackage == "" {
+            goPackage = service
+        }
+        if pkg == "" {
+            pkg = service
+        }
+        // generate
+        generate()
+    },
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
-	cobra.CheckErr(rootCmd.Execute())
+    err := rootCmd.Execute()
+    if err != nil {
+        os.Exit(1)
+    }
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
-
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.crud.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+    rootCmd.Flags().SortFlags = false
+    rootCmd.Flags().StringVarP(&format, "format", "f", "proto3", "output format support proto3, zero")
+    rootCmd.Flags().StringVar(&datasource, "source", "", "datasource example: root:123456@tcp(127.0.0.1:3306)/shop")
+    rootCmd.Flags().StringVarP(&methodStr, "method", "m", "add,delete,update,info,search", "methods separated by \",\"")
+    rootCmd.Flags().StringVarP(&ignoreColStr, "ignore_cols", "c", "create_at,create_time,created_at,update_at,update_time,updated_at",
+        "columns ignored separated by \",\"")
+    rootCmd.Flags().StringVarP(&tableStr, "table", "t", "*", "tables separated by \",\" or \"*\" for all tables")
+    rootCmd.Flags().StringVarP(&service, "service", "s", "", "service name")
+    rootCmd.Flags().StringVar(&goPackage, "go_package", "", "go_package used in proto3 (default the same as service)")
+    rootCmd.Flags().StringVarP(&pkg, "package", "p", "", "package used in proto3 (default the same as service)")
 }
 
-// initConfig reads in config file and ENV variables if set.
-func initConfig() {
-	if cfgFile != "" {
-		// Use config file from the flag.
-		viper.SetConfigFile(cfgFile)
-	} else {
-		// Find home directory.
-		home, err := os.UserHomeDir()
-		cobra.CheckErr(err)
-
-		// Search config in home directory with name ".crud" (without extension).
-		viper.AddConfigPath(home)
-		viper.SetConfigType("yaml")
-		viper.SetConfigName(".crud")
-	}
-
-	viper.AutomaticEnv() // read in environment variables that match
-
-	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
-		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
-	}
+func generate() {
+    // init db
+    dbInstance := dbfactory.NewDB(consts.MYSQL)
+    err := dbInstance.Init(datasource)
+    if err != nil {
+        log.Fatal("db init error ", err)
+    }
+    if len(tableNames) == 0 {
+        tableNames = dbInstance.AllTableNames()
+    }
+    tables, err := dbInstance.GetTables(tableNames)
+    if err != nil {
+        log.Fatal(err)
+    }
+    
+    // init protocol
+    protocolType := format
+    p := protocolfactory.NewProtocol(protocolType, pkg, goPackage)
+    convertor := convertfactory.NewConverter(protocolType)
+    for _, method := range methods {
+        convertor.AddItemCreator(convertfactory.NewItemCreator(protocolType, method))
+    }
+    convertor.AddColumnFilter(filter.NewStringFilter(ignoreCols))
+    
+    for _, table := range tables {
+        msgList, err := convertor.CreateMetaMessage(table)
+        if err != nil {
+            log.Fatal(err)
+        }
+        for _, msg := range msgList {
+            err = p.AddMessage(msg)
+            if err != nil {
+                log.Fatal(err)
+            }
+        }
+        
+        items, err := convertor.CreateItems(table, service)
+        if err != nil {
+            log.Fatal(err)
+        }
+        for _, item := range items {
+            err = p.AddItem(item)
+            if err != nil {
+                log.Fatal(err)
+            }
+            err = p.AddMessage(item.Request())
+            if err != nil {
+                log.Fatal(err)
+            }
+            err = p.AddMessage(item.Response())
+            if err != nil {
+                log.Fatal(err)
+            }
+        }
+    }
+    
+    fmt.Print(p.String())
 }

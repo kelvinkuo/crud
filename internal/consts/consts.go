@@ -1,18 +1,24 @@
 package consts
 
 const (
-	MYSQL = "mysql"
+    MYSQL = "mysql"
 )
 
 const (
-	PROTOBUF = "proto3"
-	ZEROAPI  = "zeroapi"
+    ProtoBuf = "proto3"
+    ZeroApi  = "zeroapi"
 )
 
 const (
-	Add    = "add"
-	Delete = "delete"
-	Update = "update"
-	Get    = "get"
-	Search = "search"
+    Add    = "add"
+    Delete = "delete"
+    Update = "update"
+    Info   = "info"
+    List   = "list"
+    Search = "search"
+)
+
+const (
+    IndentProto3 = 2
+    IndentZero   = 4
 )

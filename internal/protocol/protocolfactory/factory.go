@@ -1,25 +1,30 @@
 package protocolfactory
 
 import (
-    "fmt"
+    "time"
     
-    "github.com/kelvinkuo/crud/consts"
-    "github.com/kelvinkuo/crud/protocol"
-    "github.com/kelvinkuo/crud/protocol/pb"
+    "github.com/kelvinkuo/crud/internal/consts"
+    "github.com/kelvinkuo/crud/internal/protocol"
+    "github.com/kelvinkuo/crud/internal/protocol/pb"
+    "github.com/kelvinkuo/crud/internal/protocol/zero"
 )
 
-func NewProtocol(protocolType string, packageName string) protocol.Protocol {
+func NewProtocol(protocolType string, packageName string, goPackage string) protocol.Protocol {
     switch protocolType {
-    case consts.PROTOBUF:
-        return pb.NewProtocol("proto3", packageName, fmt.Sprintf("./%s", packageName))
+    case consts.ProtoBuf:
+        return pb.NewProtocol("proto3", packageName, goPackage)
+    case consts.ZeroApi:
+        return zero.NewProtocol("v1", "crud", time.Now())
     }
     return nil
 }
 
 func NewMessage(protocolType string, name string) protocol.Message {
     switch protocolType {
-    case consts.PROTOBUF:
+    case consts.ProtoBuf:
         return pb.NewMessage(name)
+    case consts.ZeroApi:
+        return zero.NewMessage(name)
     }
     return nil
 }

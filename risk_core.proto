@@ -1,0 +1,266 @@
+syntax = "proto3";
+
+option go_package ="./user";
+
+package riskcore;
+
+// ------------------------------------ 
+// Messages
+// ------------------------------------ 
+
+//--------------------------------案件禁止项目表--------------------------------
+message CaseBanned {
+  int64 id = 1; //自增 ID
+  int64 caseId = 2; //案件表外键
+  string banned = 3; //被禁止的项目
+  CaseBannedPriority priority = 4; //priority
+  int64 createdAt = 5; //创建时间
+  int64 updatedAt = 6; //更新时间
+  int64 deletedAt = 7; //软删除
+}
+
+message AddCaseBannedReq {
+  int64 caseId = 1; //案件表外键
+  string banned = 2; //被禁止的项目
+  CaseBannedPriority priority = 3; //priority
+  int64 createdAt = 4; //创建时间
+  int64 updatedAt = 5; //更新时间
+  int64 deletedAt = 6; //软删除
+}
+
+message AddCaseBannedResp {
+}
+
+message UpdateCaseBannedReq {
+  int64 id = 1; //自增 ID
+  int64 caseId = 2; //案件表外键
+  string banned = 3; //被禁止的项目
+  CaseBannedPriority priority = 4; //priority
+  int64 createdAt = 5; //创建时间
+  int64 updatedAt = 6; //更新时间
+  int64 deletedAt = 7; //软删除
+}
+
+message UpdateCaseBannedResp {
+}
+
+message DelCaseBannedReq {
+  int64 id = 1; //id
+}
+
+message DelCaseBannedResp {
+}
+
+message GetCaseBannedByIdReq {
+  int64 id = 1; //id
+}
+
+message GetCaseBannedByIdResp {
+  CaseBanned caseBanned = 1; //caseBanned
+}
+
+message SearchCaseBannedReq {
+  int64 page = 1; //page
+  int64 limit = 2; //limit
+  int64 id = 3; //自增 ID
+  int64 caseId = 4; //案件表外键
+  string banned = 5; //被禁止的项目
+  CaseBannedPriority priority = 6; //priority
+  int64 createdAt = 7; //创建时间
+  int64 updatedAt = 8; //更新时间
+  int64 deletedAt = 9; //软删除
+}
+
+message SearchCaseBannedResp {
+  repeated CaseBanned caseBanned = 1; //caseBanned
+}
+
+//--------------------------------案件信息表--------------------------------
+message RiskCase {
+  int64 id = 1; //自增 ID
+  int64 caseId = 2; //案件ID
+  string operator = 3; //操作人
+  string riskFrom = 4; //操作来源
+  string riskType = 5; //案件类型
+  string reason = 6; //案件说明
+  int64 createdAt = 7; //创建时间
+  int64 updatedAt = 8; //更新时间
+  int64 deletedAt = 9; //软删除
+}
+
+message AddRiskCaseReq {
+  int64 caseId = 1; //案件ID
+  string operator = 2; //操作人
+  string riskFrom = 3; //操作来源
+  string riskType = 4; //案件类型
+  string reason = 5; //案件说明
+  int64 createdAt = 6; //创建时间
+  int64 updatedAt = 7; //更新时间
+  int64 deletedAt = 8; //软删除
+}
+
+message AddRiskCaseResp {
+}
+
+message UpdateRiskCaseReq {
+  int64 id = 1; //自增 ID
+  int64 caseId = 2; //案件ID
+  string operator = 3; //操作人
+  string riskFrom = 4; //操作来源
+  string riskType = 5; //案件类型
+  string reason = 6; //案件说明
+  int64 createdAt = 7; //创建时间
+  int64 updatedAt = 8; //更新时间
+  int64 deletedAt = 9; //软删除
+}
+
+message UpdateRiskCaseResp {
+}
+
+message DelRiskCaseReq {
+  int64 id = 1; //id
+}
+
+message DelRiskCaseResp {
+}
+
+message GetRiskCaseByIdReq {
+  int64 id = 1; //id
+}
+
+message GetRiskCaseByIdResp {
+  RiskCase riskCase = 1; //riskCase
+}
+
+message SearchRiskCaseReq {
+  int64 page = 1; //page
+  int64 limit = 2; //limit
+  int64 id = 3; //自增 ID
+  int64 caseId = 4; //案件ID
+  string operator = 5; //操作人
+  string riskFrom = 6; //操作来源
+  string riskType = 7; //案件类型
+  string reason = 8; //案件说明
+  int64 createdAt = 9; //创建时间
+  int64 updatedAt = 10; //更新时间
+  int64 deletedAt = 11; //软删除
+}
+
+message SearchRiskCaseResp {
+  repeated RiskCase riskCase = 1; //riskCase
+}
+
+//--------------------------------拉黑记录表--------------------------------
+message RiskObject {
+  int64 id = 1; //自增 ID
+  string objectType = 2; //风控对象类型
+  string objectData = 3; //风控对象数据
+  int64 caseId = 4; //拉黑的事件id
+  string relative = 5; //被关联信息
+  int64 expiration = 6; //过期时间
+  int64 createdAt = 7; //创建时间
+  int64 updatedAt = 8; //更新时间
+  int64 deletedAt = 9; //软删除
+}
+
+message AddRiskObjectReq {
+  string objectType = 1; //风控对象类型
+  string objectData = 2; //风控对象数据
+  int64 caseId = 3; //拉黑的事件id
+  string relative = 4; //被关联信息
+  int64 expiration = 5; //过期时间
+  int64 createdAt = 6; //创建时间
+  int64 updatedAt = 7; //更新时间
+  int64 deletedAt = 8; //软删除
+}
+
+message AddRiskObjectResp {
+}
+
+message UpdateRiskObjectReq {
+  int64 id = 1; //自增 ID
+  string objectType = 2; //风控对象类型
+  string objectData = 3; //风控对象数据
+  int64 caseId = 4; //拉黑的事件id
+  string relative = 5; //被关联信息
+  int64 expiration = 6; //过期时间
+  int64 createdAt = 7; //创建时间
+  int64 updatedAt = 8; //更新时间
+  int64 deletedAt = 9; //软删除
+}
+
+message UpdateRiskObjectResp {
+}
+
+message DelRiskObjectReq {
+  int64 id = 1; //id
+}
+
+message DelRiskObjectResp {
+}
+
+message GetRiskObjectByIdReq {
+  int64 id = 1; //id
+}
+
+message GetRiskObjectByIdResp {
+  RiskObject riskObject = 1; //riskObject
+}
+
+message SearchRiskObjectReq {
+  int64 page = 1; //page
+  int64 limit = 2; //limit
+  int64 id = 3; //自增 ID
+  string objectType = 4; //风控对象类型
+  string objectData = 5; //风控对象数据
+  int64 caseId = 6; //拉黑的事件id
+  string relative = 7; //被关联信息
+  int64 expiration = 8; //过期时间
+  int64 createdAt = 9; //创建时间
+  int64 updatedAt = 10; //更新时间
+  int64 deletedAt = 11; //软删除
+}
+
+message SearchRiskObjectResp {
+  repeated RiskObject riskObject = 1; //riskObject
+}
+
+
+// ------------------------------------ 
+// Enums
+// ------------------------------------ 
+
+//  
+enum CaseBannedPriority {
+  LOW = 0;
+  MEDIUM = 1;
+  HIGH = 2;
+}
+
+
+// ------------------------------------ 
+// Rpc Func
+// ------------------------------------ 
+
+service User{ 
+
+	 //-----------------------案件禁止项目表----------------------- 
+	 rpc AddCaseBanned(AddCaseBannedReq) returns (AddCaseBannedResp); 
+	 rpc UpdateCaseBanned(UpdateCaseBannedReq) returns (UpdateCaseBannedResp); 
+	 rpc DelCaseBanned(DelCaseBannedReq) returns (DelCaseBannedResp); 
+	 rpc GetCaseBannedById(GetCaseBannedByIdReq) returns (GetCaseBannedByIdResp); 
+	 rpc SearchCaseBanned(SearchCaseBannedReq) returns (SearchCaseBannedResp); 
+	 //-----------------------案件信息表----------------------- 
+	 rpc AddRiskCase(AddRiskCaseReq) returns (AddRiskCaseResp); 
+	 rpc UpdateRiskCase(UpdateRiskCaseReq) returns (UpdateRiskCaseResp); 
+	 rpc DelRiskCase(DelRiskCaseReq) returns (DelRiskCaseResp); 
+	 rpc GetRiskCaseById(GetRiskCaseByIdReq) returns (GetRiskCaseByIdResp); 
+	 rpc SearchRiskCase(SearchRiskCaseReq) returns (SearchRiskCaseResp); 
+	 //-----------------------拉黑记录表----------------------- 
+	 rpc AddRiskObject(AddRiskObjectReq) returns (AddRiskObjectResp); 
+	 rpc UpdateRiskObject(UpdateRiskObjectReq) returns (UpdateRiskObjectResp); 
+	 rpc DelRiskObject(DelRiskObjectReq) returns (DelRiskObjectResp); 
+	 rpc GetRiskObjectById(GetRiskObjectByIdReq) returns (GetRiskObjectByIdResp); 
+	 rpc SearchRiskObject(SearchRiskObjectReq) returns (SearchRiskObjectResp); 
+
+}

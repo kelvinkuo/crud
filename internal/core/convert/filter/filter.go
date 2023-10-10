@@ -1,7 +1,7 @@
 package filter
 
 import (
-    "github.com/kelvinkuo/crud/db"
+    "github.com/kelvinkuo/crud/internal/db"
 )
 
 type StringFilter struct {

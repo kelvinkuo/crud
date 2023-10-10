@@ -4,7 +4,7 @@ import (
     "reflect"
     "testing"
     
-    "github.com/kelvinkuo/crud/db"
+    "github.com/kelvinkuo/crud/internal/db"
 )
 
 func NewDB(datasource string) (*DB, error) {
@@ -23,11 +23,11 @@ func TestNewDB(t *testing.T) {
         wantErr bool
     }{
         {
-            args:    args{dataSource: "root:P97mDE9qkj6fgEQk93Na@tcp(127.0.0.1:3306)/xz_risk_center"}, // correct
+            args:    args{dataSource: "root:123456@tcp(127.0.0.1:3306)/shop"}, // correct
             wantErr: false,
         },
         {
-            args:    args{dataSource: "root:P97mDE9qkj6fgEQk93Na@tcp(127.0.0.1:3307)/xz_risk_center"}, // error port
+            args:    args{dataSource: "root:123456@tcp(127.0.0.1:3307)/shop"}, // error port
             wantErr: true,
         },
     }
@@ -53,13 +53,13 @@ func TestDB_getSchema(t *testing.T) {
         wantErr bool
     }{
         {
-            args:    args{dataSource: "root:P97mDE9qkj6fgEQk93Na@tcp(127.0.0.1:3306)/xz_risk_center"},
-            want:    "xz_risk_center",
+            args:    args{dataSource: "root:123456@tcp(127.0.0.1:3306)/shop"},
+            want:    "shop",
             wantErr: false,
         },
         {
-            args:    args{dataSource: "root:P97mDE9qkj6fgEQk93Na@tcp(127.0.0.1:3306)/hiolabsdb"},
-            want:    "hiolabsdb",
+            args:    args{dataSource: "root:123456@tcp(127.0.0.1:3306)/order"},
+            want:    "order",
             wantErr: false,
         },
     }
@@ -92,14 +92,12 @@ func TestDB_AllTableNames(t *testing.T) {
     }{
         {
             fields: fields{
-                dataSource: "root:P97mDE9qkj6fgEQk93Na@tcp(127.0.0.1:3306)/xz_risk_center",
+                dataSource: "root:123456@tcp(127.0.0.1:3306)/shop",
             },
             want: []string{
-                "case_banned",
-                "prod_log_stat",
-                "risk_case",
-                "risk_object",
-                "store_identity_history",
+                "user",
+                "product",
+                "order",
             },
         },
     }
@@ -132,12 +130,12 @@ func TestDB_GetTable(t *testing.T) {
     }{
         {
             fields: fields{
-                dataSource: "root:P97mDE9qkj6fgEQk93Na@tcp(127.0.0.1:3306)/xz_risk_center",
+                dataSource: "root:123456@tcp(127.0.0.1:3306)/shop",
             },
-            args: args{table: "case_banned"},
+            args: args{table: "user"},
             want: &table{
-                name:    "case_banned",
-                comment: "案件禁止项目表",
+                name:    "user",
+                comment: "用户表",
                 cols: []db.Column{
                     &column{
                         name:      "id",
@@ -146,14 +144,8 @@ func TestDB_GetTable(t *testing.T) {
                         isPrimary: true,
                     },
                     &column{
-                        name:      "case_id",
-                        comment:   "案件表外键",
-                        dataType:  "bigint",
-                        isPrimary: false,
-                    },
-                    &column{
-                        name:      "banned",
-                        comment:   "被禁止的项目",
+                        name:      "name",
+                        comment:   "用户名",
                         dataType:  "varchar",
                         isPrimary: false,
                     },

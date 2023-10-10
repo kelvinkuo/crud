@@ -5,7 +5,7 @@ import (
     "log"
     
     _ "github.com/go-sql-driver/mysql"
-    "github.com/kelvinkuo/crud/db"
+    "github.com/kelvinkuo/crud/internal/db"
 )
 
 type DB struct {

@@ -1,7 +1,7 @@
 package mysql
 
 import (
-    "github.com/kelvinkuo/crud/db"
+    "github.com/kelvinkuo/crud/internal/db"
 )
 
 type table struct {

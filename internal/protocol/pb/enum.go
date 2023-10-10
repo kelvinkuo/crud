@@ -1,44 +1,29 @@
 package pb
 
 import (
-    "errors"
     "fmt"
     "strings"
     
-    "github.com/kelvinkuo/crud/protocol"
+    "github.com/kelvinkuo/crud/internal/consts"
+    "github.com/kelvinkuo/crud/internal/core/tools"
+    "github.com/kelvinkuo/crud/internal/protocol"
 )
 
 type Enum struct {
-    name   string
-    fields []protocol.Field
+    protocol.CommonMessage
 }
 
 func NewEnum(name string) *Enum {
-    return &Enum{name: name}
+    return &Enum{CommonMessage: protocol.NewCommonMessage(name)}
 }
 
-func (e *Enum) Name() string {
-    return e.name
-}
-
-func (e *Enum) AddField(field protocol.Field) error {
-    for _, f := range e.fields {
-        if f.StringLine() == field.StringLine() {
-            return errors.New("enum field already exists")
-        }
-    }
-    
-    e.fields = append(e.fields, field)
-    return nil
-}
-
-func (e *Enum) String() string {
+func (e *Enum) String(indent int) string {
     b := strings.Builder{}
-    b.WriteString(fmt.Sprintf("enum %s {\n", e.name))
-    for _, f := range e.fields {
-        b.WriteString(fmt.Sprintf("  %s\n", f.StringLine()))
+    b.WriteString(fmt.Sprintf("%senum %s {\n", tools.Blank(indent), e.Name()))
+    for _, f := range e.Fields() {
+        b.WriteString(fmt.Sprintf("%s\n", f.String(indent+consts.IndentProto3)))
     }
-    b.WriteString("}\n")
+    b.WriteString(fmt.Sprintf("%s}\n", tools.Blank(indent)))
     
     return b.String()
 }
@@ -52,6 +37,6 @@ func NewEnumField(name string, number int) *EnumField {
     return &EnumField{name: name, number: number}
 }
 
-func (e *EnumField) StringLine() string {
-    return fmt.Sprintf("%s = %d;", e.name, e.number)
+func (e *EnumField) String(indent int) string {
+    return fmt.Sprintf("%s%s = %d;", tools.Blank(indent), e.name, e.number)
 }

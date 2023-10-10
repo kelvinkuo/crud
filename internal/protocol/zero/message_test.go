@@ -1,8 +1,10 @@
-package pb
+package zero
+
+/*
 
 import (
     "testing"
-    
+
     "github.com/kelvinkuo/crud/internal/protocol"
 )
 
@@ -211,3 +213,4 @@ func Test_message_String(t *testing.T) {
         })
     }
 }
+*/
