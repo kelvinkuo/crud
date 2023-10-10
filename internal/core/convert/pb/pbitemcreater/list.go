@@ -5,6 +5,7 @@ import (
     
     "github.com/kelvinkuo/crud/internal/consts"
     "github.com/kelvinkuo/crud/internal/core/convert"
+    pb2 "github.com/kelvinkuo/crud/internal/core/convert/pb"
     "github.com/kelvinkuo/crud/internal/core/tools"
     "github.com/kelvinkuo/crud/internal/db"
     "github.com/kelvinkuo/crud/internal/protocol"
@@ -15,13 +16,13 @@ import (
 type List struct {
 }
 
-func (c *List) ItemCreate(table db.Table, service string, filters []convert.ColumnFilter) (protocol.Item, error) {
+func (c *List) ItemCreate(table db.Table, service, style string, filters []convert.ColumnFilter) (protocol.Item, error) {
     req := factory.NewMessage(consts.ProtoBuf, fmt.Sprintf("%sListReq", tools.UpperCamelCase(table.Name())))
-    err := req.AddField(pb.NewField("page", "int32", 1, "", false))
+    err := req.AddField(pb.NewField(pb2.StyleString("page", style), "int32", 1, "", false))
     if err != nil {
         return nil, err
     }
-    err = req.AddField(pb.NewField("pageSize", "int32", 2, "", false))
+    err = req.AddField(pb.NewField(pb2.StyleString("pageSize", style), "int32", 2, "", false))
     if err != nil {
         return nil, err
     }

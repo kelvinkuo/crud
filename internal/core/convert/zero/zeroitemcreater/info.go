@@ -17,7 +17,7 @@ import (
 type Info struct {
 }
 
-func (c *Info) ItemCreate(table db.Table, service string, filters []convert.ColumnFilter) (protocol.Item, error) {
+func (c *Info) ItemCreate(table db.Table, service, style string, filters []convert.ColumnFilter) (protocol.Item, error) {
     req := factory.NewMessage(consts.ZeroApi, fmt.Sprintf("%sInfoReq", tools.UpperCamelCase(table.Name())))
     for _, col := range table.Cols() {
         if col.IsPrimary() {

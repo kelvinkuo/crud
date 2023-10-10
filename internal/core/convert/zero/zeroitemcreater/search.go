@@ -17,7 +17,7 @@ import (
 type Search struct {
 }
 
-func (c *Search) ItemCreate(table db.Table, service string, filters []convert.ColumnFilter) (protocol.Item, error) {
+func (c *Search) ItemCreate(table db.Table, service, style string, filters []convert.ColumnFilter) (protocol.Item, error) {
     req := factory.NewMessage(consts.ZeroApi, fmt.Sprintf("%sSearchReq", tools.UpperCamelCase(table.Name())))
     for _, col := range table.Cols() {
         if convert.FilterOut(col, filters) {

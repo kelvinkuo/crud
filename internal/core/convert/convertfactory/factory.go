@@ -9,10 +9,10 @@ import (
     "github.com/kelvinkuo/crud/internal/core/convert/zero/zeroitemcreater"
 )
 
-func NewConverter(protocolType string) convert.Converter {
+func NewConverter(protocolType, style string) convert.Converter {
     switch protocolType {
     case consts.ProtoBuf:
-        return pb.NewConverter()
+        return pb.NewConverter(style)
     case consts.ZeroApi:
         return zero.NewConverter()
     }

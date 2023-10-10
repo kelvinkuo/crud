@@ -17,7 +17,7 @@ import (
 type Delete struct {
 }
 
-func (c *Delete) ItemCreate(table db.Table, service string, filters []convert.ColumnFilter) (protocol.Item, error) {
+func (c *Delete) ItemCreate(table db.Table, service, style string, filters []convert.ColumnFilter) (protocol.Item, error) {
     req := factory.NewMessage(consts.ZeroApi, fmt.Sprintf("%sDeleteReq", tools.UpperCamelCase(table.Name())))
     resp := factory.NewMessage(consts.ZeroApi, fmt.Sprintf("%sDeleteResp", tools.UpperCamelCase(table.Name())))
     

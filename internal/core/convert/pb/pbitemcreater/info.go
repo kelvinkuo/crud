@@ -16,11 +16,11 @@ import (
 type Info struct {
 }
 
-func (c *Info) ItemCreate(table db.Table, service string, filters []convert.ColumnFilter) (protocol.Item, error) {
+func (c *Info) ItemCreate(table db.Table, service, style string, filters []convert.ColumnFilter) (protocol.Item, error) {
     req := factory.NewMessage(consts.ProtoBuf, fmt.Sprintf("%sInfoReq", tools.UpperCamelCase(table.Name())))
     for _, col := range table.Cols() {
         if col.IsPrimary() {
-            err := req.AddField(pb.NewField(tools.LowerCamelCase(col.Name()), pb2.PbType(col.DataType()), 1, col.Comment(), false))
+            err := req.AddField(pb.NewField(pb2.StyleString(col.Name(), style), pb2.PbType(col.DataType()), 1, col.Comment(), false))
             if err != nil {
                 return nil, err
             }
@@ -32,7 +32,7 @@ func (c *Info) ItemCreate(table db.Table, service string, filters []convert.Colu
     // message HiolabsOrderInfoResp {
     //   HiolabsOrder hiolabsOrder = 1;
     // }
-    err := resp.AddField(pb.NewField(tools.LowerCamelCase(table.Name()), tools.UpperCamelCase(table.Name()), 1, "", false))
+    err := resp.AddField(pb.NewField(pb2.StyleString(table.Name(), style), tools.UpperCamelCase(table.Name()), 1, "", false))
     if err != nil {
         return nil, err
     }

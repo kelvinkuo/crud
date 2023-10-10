@@ -16,7 +16,7 @@ import (
 type List struct {
 }
 
-func (c *List) ItemCreate(table db.Table, service string, filters []convert.ColumnFilter) (protocol.Item, error) {
+func (c *List) ItemCreate(table db.Table, service, style string, filters []convert.ColumnFilter) (protocol.Item, error) {
     req := factory.NewMessage(consts.ZeroApi, fmt.Sprintf("%sListReq", tools.UpperCamelCase(table.Name())))
     err := req.AddField(zero.NewField("page", "int", "", "form:\"page\""))
     if err != nil {

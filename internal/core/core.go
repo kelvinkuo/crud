@@ -11,7 +11,7 @@ import (
     "github.com/kelvinkuo/crud/internal/protocol/protocolfactory"
 )
 
-func Generate(datasource, protocolType, service, pkg, goPackage string, tableNames, ignoreCols, methods []string) {
+func Generate(datasource, protocolType, service, pkg, goPackage, style string, tableNames, ignoreCols, methods []string) {
     // init db
     dbInstance := dbfactory.NewDB(consts.MYSQL)
     err := dbInstance.Init(datasource)
@@ -28,7 +28,7 @@ func Generate(datasource, protocolType, service, pkg, goPackage string, tableNam
     
     // init protocol
     p := protocolfactory.NewProtocol(protocolType, pkg, goPackage)
-    convertor := convertfactory.NewConverter(protocolType)
+    convertor := convertfactory.NewConverter(protocolType, style)
     for _, method := range methods {
         convertor.AddItemCreator(convertfactory.NewItemCreator(protocolType, method))
     }

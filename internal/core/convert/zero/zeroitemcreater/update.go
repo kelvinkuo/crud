@@ -17,7 +17,7 @@ import (
 type Update struct {
 }
 
-func (c *Update) ItemCreate(table db.Table, service string, filters []convert.ColumnFilter) (protocol.Item, error) {
+func (c *Update) ItemCreate(table db.Table, service, style string, filters []convert.ColumnFilter) (protocol.Item, error) {
     req := factory.NewMessage(consts.ZeroApi, fmt.Sprintf("%sUpdateReq", tools.UpperCamelCase(table.Name())))
     err := req.AddField(zero.NewField(tools.UpperCamelCase(table.Name()), "", "", ""))
     if err != nil {

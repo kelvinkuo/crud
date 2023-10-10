@@ -22,3 +22,8 @@ const (
     IndentProto3 = 2
     IndentZero   = 4
 )
+
+const (
+    StyleCamelCase = "goCrud"
+    StyleUnderline = "go_crud"
+)

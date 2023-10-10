@@ -1,6 +1,7 @@
 package cmd
 
 import (
+    "fmt"
     "os"
     "strings"
     
@@ -20,6 +21,7 @@ var (
     service      string
     goPackage    string
     pkg          string
+    style        string
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -46,13 +48,13 @@ crud -f proto3 --source "root:123456@tcp(127.0.0.1:3306)/shop" -m "add,delete,up
             tableNames = strings.Split(tableStr, ",")
         }
         if goPackage == "" {
-            goPackage = service
+            goPackage = fmt.Sprintf("./%s", service)
         }
         if pkg == "" {
             pkg = service
         }
         // generate
-        core.Generate(datasource, format, service, pkg, goPackage, tableNames, ignoreCols, methods)
+        core.Generate(datasource, format, service, pkg, goPackage, style, tableNames, ignoreCols, methods)
     },
 }
 
@@ -74,4 +76,5 @@ func init() {
     rootCmd.Flags().StringVarP(&service, "service", "s", "", "service name")
     rootCmd.Flags().StringVar(&goPackage, "go_package", "", "go_package used in proto3 (default the same as service)")
     rootCmd.Flags().StringVarP(&pkg, "package", "p", "", "package used in proto3 (default the same as service)")
+    rootCmd.Flags().StringVar(&style, "style", "go_crud", "style of field name in proto3 message, goCrud or go_crud")
 }

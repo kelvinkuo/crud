@@ -16,7 +16,7 @@ import (
 type Update struct {
 }
 
-func (c *Update) ItemCreate(table db.Table, service string, filters []convert.ColumnFilter) (protocol.Item, error) {
+func (c *Update) ItemCreate(table db.Table, service, style string, filters []convert.ColumnFilter) (protocol.Item, error) {
     req := factory.NewMessage(consts.ProtoBuf, fmt.Sprintf("%sUpdateReq", tools.UpperCamelCase(table.Name())))
     i := 1
     for _, col := range table.Cols() {
@@ -25,7 +25,7 @@ func (c *Update) ItemCreate(table db.Table, service string, filters []convert.Co
         }
         if col.IsEnum() {
             err := req.AddField(pb.NewField(
-                tools.LowerCamelCase(col.Name()),
+                pb2.StyleString(col.Name(), style),
                 tools.UpperCamelCase(table.Name())+tools.UpperCamelCase(col.Name()),
                 i,
                 col.Comment(),
@@ -37,7 +37,7 @@ func (c *Update) ItemCreate(table db.Table, service string, filters []convert.Co
             continue
         }
         
-        err := req.AddField(pb.NewField(tools.LowerCamelCase(col.Name()), pb2.PbType(col.DataType()), i, col.Comment(), false))
+        err := req.AddField(pb.NewField(pb2.StyleString(col.Name(), style), pb2.PbType(col.DataType()), i, col.Comment(), false))
         i++
         if err != nil {
             return nil, err

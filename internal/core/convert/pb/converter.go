@@ -17,8 +17,8 @@ type Converter struct {
     convert.CommonConverter
 }
 
-func NewConverter() *Converter {
-    return &Converter{CommonConverter: convert.NewCommonConverter()}
+func NewConverter(style string) *Converter {
+    return &Converter{CommonConverter: convert.NewCommonConverter(style)}
 }
 
 func (p *Converter) CreateMetaMessage(table db.Table) ([]protocol.Message, error) {
@@ -29,6 +29,8 @@ func (p *Converter) CreateMetaMessage(table db.Table) ([]protocol.Message, error
         if convert.FilterOut(col, p.Filters) {
             continue
         }
+        
+        var dataType string
         if col.IsEnum() {
             enumList := regexp.MustCompile(`[enum|set]\((.+?)\)`).FindStringSubmatch(col.ColumnType())
             enumFields := strings.FieldsFunc(enumList[1], func(c rune) bool {
@@ -44,16 +46,16 @@ func (p *Converter) CreateMetaMessage(table db.Table) ([]protocol.Message, error
                 }
             }
             msgList = append(msgList, enum)
-            err := msg.AddField(pb.NewField(tools.LowerCamelCase(col.Name()), enumName, i, col.Comment(), false))
-            if err != nil {
-                return nil, err
-            }
+            dataType = enumName
         } else {
-            err := msg.AddField(pb.NewField(tools.LowerCamelCase(col.Name()), PbType(col.DataType()), i, col.Comment(), false))
-            if err != nil {
-                return nil, err
-            }
+            dataType = PbType(col.DataType())
         }
+        
+        err := msg.AddField(pb.NewField(StyleString(col.Name(), p.Style), dataType, i, col.Comment(), false))
+        if err != nil {
+            return nil, err
+        }
+        
         i++
     }
     
@@ -105,4 +107,15 @@ func PbType(t string) string {
     } else {
         return t
     }
+}
+
+func StyleString(str, style string) string {
+    switch style {
+    case consts.StyleCamelCase:
+        return tools.LowerCamelCase(str)
+    case consts.StyleUnderline:
+        return tools.LowerUnderline(str)
+    }
+    
+    return str
 }

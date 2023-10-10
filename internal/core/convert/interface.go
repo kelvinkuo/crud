@@ -6,7 +6,7 @@ import (
 )
 
 type ItemCreator interface {
-    ItemCreate(table db.Table, service string, filters []ColumnFilter) (protocol.Item, error)
+    ItemCreate(table db.Table, service, style string, filters []ColumnFilter) (protocol.Item, error)
 }
 
 type Converter interface {

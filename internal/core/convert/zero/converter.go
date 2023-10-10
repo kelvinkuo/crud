@@ -17,7 +17,7 @@ type Converter struct {
 }
 
 func NewConverter() *Converter {
-    return &Converter{CommonConverter: convert.NewCommonConverter()}
+    return &Converter{CommonConverter: convert.NewCommonConverter(consts.StyleCamelCase)}
 }
 
 func (p *Converter) CreateMetaMessage(table db.Table) ([]protocol.Message, error) {
