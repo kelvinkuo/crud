@@ -61,9 +61,9 @@ crud -f proto3 --source "root:123456@tcp(127.0.0.1:3306)/shop" -m "add,delete,up
 - [X] api file support
 - [X] custom proto3 message field style
 - [X] fully test
-- [ ] document
+- [X] document
   - [X] comment
-  - [ ] README
+  - [X] README
 
 ## contact
 please feel free to contact me for any question or suggestion of crud
