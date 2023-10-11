@@ -6,6 +6,8 @@
 ## 介绍
 crud 是一个从数据源生成CRUD接口定义文件的工具。
 
+受到[sql2pb](https://github.com/Mikaelemmmm/sql2pb)的启发，但是代码完全重新写的，更加模块化和易于扩展。
+
 **数据源支持:**
 1. mysql
 
