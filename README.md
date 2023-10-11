@@ -6,6 +6,8 @@
 ## intro
 crud is a tool for generating api defined files from datasource.
 
+inspired by [sql2pb](https://github.com/Mikaelemmmm/sql2pb) but code is completly rewritten.
+
 **datasource supported:**
 * mysql
 
