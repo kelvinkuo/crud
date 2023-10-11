@@ -36,8 +36,8 @@ func (c *Delete) ItemCreate(table db.Table, service, style string, filters []con
         }
     }
     
-    // @handler HiolabsAdDelete
-    // post /hiolabsad/delete (HiolabsAdDeleteReq) returns (HiolabsAdDeleteResp)
+    // @handler OrderDelete
+    // post /order/delete (OrderDeleteReq) returns (OrderDeleteResp)
     return zero.NewItem(fmt.Sprintf("%sDelete", tools.UpperCamelCase(table.Name())), "", service, req, resp, "post",
         fmt.Sprintf("/%s/delete", strings.ToLower(tools.LowerCamelCase(table.Name())))), nil
 }

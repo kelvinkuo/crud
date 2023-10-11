@@ -29,9 +29,6 @@ func (c *Info) ItemCreate(table db.Table, service, style string, filters []conve
     }
     
     resp := factory.NewMessage(consts.ProtoBuf, fmt.Sprintf("%sInfoResp", tools.UpperCamelCase(table.Name())))
-    // message HiolabsOrderInfoResp {
-    //   HiolabsOrder hiolabsOrder = 1;
-    // }
     err := resp.AddField(pb.NewField(pb2.StyleString(table.Name(), style), tools.UpperCamelCase(table.Name()), 1, "", false))
     if err != nil {
         return nil, err

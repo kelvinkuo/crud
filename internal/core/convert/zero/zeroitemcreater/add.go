@@ -36,8 +36,8 @@ func (c *Add) ItemCreate(table db.Table, service, style string, filters []conver
         }
     }
     
-    // @handler HiolabsAdAdd
-    // post /hiolabsad/add (HiolabsAdAddReq) returns (HiolabsAdAddResp)
+    // @handler OrderAdd
+    // post /order/add (OrderAddReq) returns (OrderAddResp)
     return zero.NewItem(fmt.Sprintf("%sAdd", tools.UpperCamelCase(table.Name())), "", service, req, resp, "post",
         fmt.Sprintf("/%s/add", strings.ToLower(tools.LowerCamelCase(table.Name())))), nil
 }

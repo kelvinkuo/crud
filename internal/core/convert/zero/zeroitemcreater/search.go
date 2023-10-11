@@ -31,10 +31,10 @@ func (c *Search) ItemCreate(table db.Table, service, style string, filters []con
     }
     
     resp := factory.NewMessage(consts.ZeroApi, fmt.Sprintf("%sSearchResp", tools.UpperCamelCase(table.Name())))
-    // type HomestaySearchResp {
-    //     List []Homestay `json:"list"`
+    // type OrderSearchResp {
+    //     List []Order `json:"list"`
     // }
-    err := resp.AddField(zero.NewField("list", fmt.Sprintf("[]%s", tools.UpperCamelCase(table.Name())), "", "json:\"list\""))
+    err := resp.AddField(zero.NewField("List", fmt.Sprintf("[]%s", tools.UpperCamelCase(table.Name())), "", "json:\"list\""))
     if err != nil {
         return nil, err
     }

@@ -37,7 +37,7 @@ example simple:
 crud -f zeroapi --source "root:123456@tcp(127.0.0.1:3306)/shop" -s shop
 
 example full:
-crud -f proto3 --source "root:123456@tcp(127.0.0.1:3306)/shop" -m "add,delete,update,info,list,search" -c "created_at,updated_at,deleted_at" -t * -s shop -go_package shop -package shop
+crud -f proto3 --source "root:123456@tcp(127.0.0.1:3306)/shop" -m "add,delete,update,info,list,search" -c "created_at,updated_at,deleted_at" -t * -s shop -go_package shop -package "./shop" --style go_crud
 
 `,
     Run: func(cmd *cobra.Command, args []string) {
@@ -67,7 +67,7 @@ func Execute() {
 
 func init() {
     rootCmd.Flags().SortFlags = false
-    rootCmd.Flags().StringVarP(&format, "format", "f", "proto3", "output format support proto3, zero")
+    rootCmd.Flags().StringVarP(&format, "format", "f", "proto3", "output format support proto3 or zeroapi")
     rootCmd.Flags().StringVar(&datasource, "source", "", "datasource example: root:123456@tcp(127.0.0.1:3306)/shop")
     rootCmd.Flags().StringVarP(&methodStr, "method", "m", "add,delete,update,info,list,search", "methods separated by \",\"")
     rootCmd.Flags().StringVarP(&ignoreColStr, "ignore_cols", "c", "create_at,create_time,created_at,update_at,update_time,updated_at",

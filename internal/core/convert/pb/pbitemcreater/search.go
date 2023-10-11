@@ -45,8 +45,8 @@ func (c *Search) ItemCreate(table db.Table, service, style string, filters []con
     }
     
     resp := factory.NewMessage(consts.ProtoBuf, fmt.Sprintf("%sSearchResp", tools.UpperCamelCase(table.Name())))
-    // message HiolabsOrderSearchResp {
-    //   repeated HiolabsOrder hiolabsOrder = 1;
+    // message OrderSearchResp {
+    //   repeated Order list = 1;
     // }
     err := resp.AddField(pb.NewField("list", tools.UpperCamelCase(table.Name()), 1, "", true))
     if err != nil {

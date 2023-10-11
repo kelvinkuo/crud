@@ -3,22 +3,22 @@
 [中文](https://github.com/kelvinkuo/crud/README_CHINESE.md)
 [ENGLISH](https://github.com/kelvinkuo/crud)
 
-## intro
-crud is a tool for generating api defined files from datasource.
+## 介绍
+crud 是一个从数据源生成CRUD接口定义文件的工具。
 
-**datasource supported:**
-* mysql
+**数据源支持:**
+1. mysql
 
-**api files supported:**
-* proto3
-* zero api
+**接口格式支持:**
+1. proto3
+2. zero api
 
-## install
+## 安装
 ```bash
 go install github.com/kelvinkuo/crud@latest
 ```
 
-## usage
+## 使用方法
 
 ```
 Usage:
@@ -37,36 +37,15 @@ Flags:
   -h, --help                 help for crud
 ```
 
-## examples
+## 示例
 
-simple
+一般用法
 ```bash
 crud -f zeroapi --source "root:123456@tcp(127.0.0.1:3306)/shop" -s shop > shop.api
 ```
 
-full
+完全形式
 ```bash
 crud -f proto3 --source "root:123456@tcp(127.0.0.1:3306)/shop" -m "add,delete,update,info,list,search" \
 -c "created_at,updated_at,deleted_at" -t * -s shop -go_package shop -package "./shop" --style go_crud > shop_model.proto
 ```
-
-## todo
-- [x] sort messages
-- [x] data type convert from db to api file
-- [x] db enum type
-- [x] clean code of convert module
-- [x] filter out time-related fields in tables
-- [X] args parser
-- [X] project layout
-- [X] api file support
-- [X] custom proto3 message field style
-- [X] fully test
-- [ ] document
-  - [X] comment
-  - [ ] README
-
-## contact
-please feel free to contact me for any question or suggestion of crud
-
-- email: kelvinkuo224@gmail.com
-- github: https://github.com/kelvinkuo

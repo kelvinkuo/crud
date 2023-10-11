@@ -28,8 +28,8 @@ func (c *List) ItemCreate(table db.Table, service, style string, filters []conve
     }
     
     resp := factory.NewMessage(consts.ProtoBuf, fmt.Sprintf("%sListResp", tools.UpperCamelCase(table.Name())))
-    // message HiolabsOrderInfoResp {
-    //   repeated HiolabsOrder list = 1;
+    // message OrderInfoResp {
+    //   repeated Order list = 1;
     // }
     err = resp.AddField(pb.NewField("list", tools.UpperCamelCase(table.Name()), 1, "", true))
     if err != nil {

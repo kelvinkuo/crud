@@ -36,8 +36,8 @@ func (c *Info) ItemCreate(table db.Table, service, style string, filters []conve
         return nil, err
     }
     
-    // @handler HiolabsAdGet
-    // post /hiolabsad/get (HiolabsAdGetReq) returns (HiolabsAdGetResp)
+    // @handler OrderInfo
+    // post /order/info (OrderInfoReq) returns (OrderInfoResp)
     return zero.NewItem(fmt.Sprintf("%sInfo", tools.UpperCamelCase(table.Name())), "", service, req, resp, "get",
         fmt.Sprintf("/%s/info", strings.ToLower(tools.LowerCamelCase(table.Name())))), nil
 }

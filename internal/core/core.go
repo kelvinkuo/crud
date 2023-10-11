@@ -18,6 +18,8 @@ func Generate(datasource, protocolType, service, pkg, goPackage, style string, t
     if err != nil {
         log.Fatal("db init error ", err)
     }
+    defer dbInstance.Close()
+    
     if len(tableNames) == 0 {
         tableNames = dbInstance.AllTableNames()
     }

@@ -30,6 +30,6 @@ func (c *Delete) ItemCreate(table db.Table, service, style string, filters []con
     
     resp := factory.NewMessage(consts.ProtoBuf, fmt.Sprintf("%sDelResp", tools.UpperCamelCase(table.Name())))
     
-    // rpc HiolabsOrderDel(HiolabsOrderDelReq) returns (HiolabsOrderDelResp);
+    // rpc OrderDel(OrderDelReq) returns (OrderDelResp);
     return pb.NewItem(fmt.Sprintf("%sDel", tools.UpperCamelCase(table.Name())), "", service, req, resp), nil
 }

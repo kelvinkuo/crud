@@ -46,6 +46,6 @@ func (c *Update) ItemCreate(table db.Table, service, style string, filters []con
     
     resp := factory.NewMessage(consts.ProtoBuf, fmt.Sprintf("%sUpdateResp", tools.UpperCamelCase(table.Name())))
     
-    // rpc HiolabsOrderUpdate(HiolabsOrderUpdateReq) returns (HiolabsOrderUpdateResp);
+    // rpc OrderUpdate(OrderUpdateReq) returns (OrderUpdateResp);
     return pb.NewItem(fmt.Sprintf("%sUpdate", tools.UpperCamelCase(table.Name())), "", service, req, resp), nil
 }

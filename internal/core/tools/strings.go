@@ -8,9 +8,7 @@ import (
     "golang.org/x/text/language"
 )
 
-// supporting convert between lower camel case and upper camel case and underline style
-// example: userName UserName user_name User_Name
-
+// LowerCamelCase return string with format "camelCase"
 func LowerCamelCase(str string) string {
     titleCase := cases.Title(language.English)
     lowerCase := cases.Lower(language.English)
@@ -28,6 +26,7 @@ func LowerCamelCase(str string) string {
     return strings.Join(words, "")
 }
 
+// UpperCamelCase return string with format "CamelCase"
 func UpperCamelCase(str string) string {
     titleCase := cases.Title(language.English)
     
@@ -43,6 +42,7 @@ func UpperCamelCase(str string) string {
     return strings.Join(words, "")
 }
 
+// LowerUnderline return string with format "camel_case"
 func LowerUnderline(str string) string {
     lowerCase := cases.Lower(language.English)
     
@@ -76,6 +76,7 @@ func split(str string) []string {
     return strings.Split(string(result), string(sep))
 }
 
+// Blank return string consists of n whitespace
 func Blank(n int) string {
     builder := strings.Builder{}
     for i := 0; i < n; i++ {

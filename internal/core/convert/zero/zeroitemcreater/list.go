@@ -18,20 +18,20 @@ type List struct {
 
 func (c *List) ItemCreate(table db.Table, service, style string, filters []convert.ColumnFilter) (protocol.Item, error) {
     req := factory.NewMessage(consts.ZeroApi, fmt.Sprintf("%sListReq", tools.UpperCamelCase(table.Name())))
-    err := req.AddField(zero.NewField("page", "int", "", "form:\"page\""))
+    err := req.AddField(zero.NewField("Page", "int", "", "form:\"page\""))
     if err != nil {
         return nil, err
     }
-    err = req.AddField(zero.NewField("pageSize", "int", "", "form:\"page_size\""))
+    err = req.AddField(zero.NewField("PageSize", "int", "", "form:\"page_size\""))
     if err != nil {
         return nil, err
     }
     
     resp := factory.NewMessage(consts.ZeroApi, fmt.Sprintf("%sListResp", tools.UpperCamelCase(table.Name())))
-    // type HomestaySearchResp {
-    //     List []Homestay `json:"list"`
+    // type OrderSearchResp {
+    //     List []Order `json:"list"`
     // }
-    err = resp.AddField(zero.NewField("list", fmt.Sprintf("[]%s", tools.UpperCamelCase(table.Name())), "", "json:\"list\""))
+    err = resp.AddField(zero.NewField("List", fmt.Sprintf("[]%s", tools.UpperCamelCase(table.Name())), "", "json:\"list\""))
     if err != nil {
         return nil, err
     }

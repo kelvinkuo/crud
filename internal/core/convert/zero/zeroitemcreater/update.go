@@ -36,8 +36,8 @@ func (c *Update) ItemCreate(table db.Table, service, style string, filters []con
         }
     }
     
-    // @handler HiolabsAdUpdate
-    // post /hiolabsad/update (HiolabsAdUpdateReq) returns (HiolabsAdUpdateResp)
+    // @handler OrderUpdate
+    // post /order/update (OrderUpdateReq) returns (OrderUpdateResp)
     return zero.NewItem(fmt.Sprintf("%sUpdate", tools.UpperCamelCase(table.Name())), "", service, req, resp, "post",
         fmt.Sprintf("/%s/update", strings.ToLower(tools.LowerCamelCase(table.Name())))), nil
 }

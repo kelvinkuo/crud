@@ -7,22 +7,8 @@ import (
 type CommonProtocol struct {
     Syntax   string
     Messages map[string]Message
-    // first key is service name, second is Item name
-    // example:
-    // {
-    // 		service-shop : [
-    //			UserAdd,
-    //          UserDelete,
-    //          UserUpdate,
-    //          UserInfo,
-    //          UserSearch,
-    //			ProductAdd,
-    //          ProductDelete,
-    //          ProductUpdate,
-    //          ProductInfo,
-    //          ProductSearch,
-    //      ]
-    // }
+    
+    // map Items key is service name
     Items map[string][]Item
 }
 

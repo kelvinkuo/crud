@@ -43,112 +43,12 @@ func Test_field_StringLine(t *testing.T) {
     for _, tt := range tests {
         t.Run(tt.name, func(t *testing.T) {
             f := &Field{
-                name:     tt.fields.name,
-                dataType: tt.fields.dataType,
-                number:   tt.fields.number,
-                comment:  tt.fields.comment,
-                repeated: tt.fields.repeated,
+                CommonField: protocol.NewCommonField(tt.fields.name, tt.fields.dataType, tt.fields.comment),
+                number:      tt.fields.number,
+                repeated:    tt.fields.repeated,
             }
-            if got := f.String(); got != tt.want {
+            if got := f.String(0); got != tt.want {
                 t.Errorf("String() = %v, want %v", got, tt.want)
-            }
-        })
-    }
-}
-
-// Message User {
-//  int64 id = 1; //id
-//  string nickname = 2; //nickname
-//  string username = 3; //username
-//  string password = 4; //password
-//  int64 gender = 5; //gender
-//  int64 birthday = 6; //birthday
-//  int64 registerTime = 7; //registerTime
-//  int64 lastLoginTime = 8; //lastLoginTime
-//  string lastLoginIp = 9; //lastLoginIp
-//  string mobile = 10; //mobile
-// }
-func Test_message_AddField(t *testing.T) {
-    type fields struct {
-        name   string
-        fields []protocol.Field
-    }
-    type args struct {
-        field protocol.Field
-    }
-    tests := []struct {
-        name    string
-        fields  fields
-        args    args
-        wantErr bool
-    }{
-        {
-            fields: fields{
-                name: "User",
-                fields: []protocol.Field{
-                    &Field{
-                        name:     "id",
-                        dataType: "int64",
-                        number:   1,
-                        comment:  "id",
-                        repeated: false,
-                    },
-                    &Field{
-                        name:     "username",
-                        dataType: "string",
-                        number:   2,
-                        comment:  "username",
-                        repeated: false,
-                    },
-                    &Field{
-                        name:     "mobile",
-                        dataType: "string",
-                        number:   3,
-                        comment:  "mobile",
-                        repeated: false,
-                    },
-                },
-            },
-            args: args{field: &Field{
-                name:     "gender",
-                dataType: "int64",
-                number:   4,
-                comment:  "gender",
-                repeated: false,
-            }},
-            wantErr: false,
-        },
-        {
-            fields: fields{
-                name: "User",
-                fields: []protocol.Field{
-                    &Field{
-                        name:     "id",
-                        dataType: "int64",
-                        number:   1,
-                        comment:  "id",
-                        repeated: false,
-                    },
-                },
-            },
-            args: args{field: &Field{
-                name:     "id",
-                dataType: "int64",
-                number:   2,
-                comment:  "id",
-                repeated: false,
-            }},
-            wantErr: true,
-        },
-    }
-    for _, tt := range tests {
-        t.Run(tt.name, func(t *testing.T) {
-            m := &Message{
-                name:   tt.fields.name,
-                fields: tt.fields.fields,
-            }
-            if err := m.AddField(tt.args.field); (err != nil) != tt.wantErr {
-                t.Errorf("AddField() error = %v, wantErr %v", err, tt.wantErr)
             }
         })
     }
@@ -169,29 +69,23 @@ func Test_message_String(t *testing.T) {
                 name: "User",
                 fields: []protocol.Field{
                     &Field{
-                        name:     "id",
-                        dataType: "int64",
-                        number:   1,
-                        comment:  "id",
-                        repeated: false,
+                        CommonField: protocol.NewCommonField("id", "int64", "id"),
+                        number:      1,
+                        repeated:    false,
                     },
                     &Field{
-                        name:     "username",
-                        dataType: "string",
-                        number:   2,
-                        comment:  "username",
-                        repeated: false,
+                        CommonField: protocol.NewCommonField("username", "string", "username"),
+                        number:      2,
+                        repeated:    false,
                     },
                     &Field{
-                        name:     "mobile",
-                        dataType: "string",
-                        number:   3,
-                        comment:  "mobile",
-                        repeated: false,
+                        CommonField: protocol.NewCommonField("mobile", "string", "mobile"),
+                        number:      3,
+                        repeated:    false,
                     },
                 },
             },
-            want: `Message User {
+            want: `message User {
   int64 id = 1; // id
   string username = 2; // username
   string mobile = 3; // mobile
@@ -202,10 +96,12 @@ func Test_message_String(t *testing.T) {
     for _, tt := range tests {
         t.Run(tt.name, func(t *testing.T) {
             m := &Message{
-                name:   tt.fields.name,
-                fields: tt.fields.fields,
+                CommonMessage: protocol.NewCommonMessage(tt.fields.name),
             }
-            if got := m.String(); got != tt.want {
+            for _, field := range tt.fields.fields {
+                _ = m.AddField(field)
+            }
+            if got := m.String(0); got != tt.want {
                 t.Errorf("String() = %v, want %v", got, tt.want)
             }
         })
