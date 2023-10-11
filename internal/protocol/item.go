@@ -1,33 +1,33 @@
 package protocol
 
 type CommonItem struct {
-    name     string
-    comment  string
-    service  string
-    request  Message
-    response Message
+	name     string
+	comment  string
+	service  string
+	request  Message
+	response Message
 }
 
 func NewCommonItem(name string, comment string, service string, request Message, response Message) CommonItem {
-    return CommonItem{name: name, comment: comment, service: service, request: request, response: response}
+	return CommonItem{name: name, comment: comment, service: service, request: request, response: response}
 }
 
 func (i *CommonItem) Name() string {
-    return i.name
+	return i.name
 }
 
 func (i *CommonItem) Comment() string {
-    return i.comment
+	return i.comment
 }
 
 func (i *CommonItem) Service() string {
-    return i.service
+	return i.service
 }
 
 func (i *CommonItem) Request() Message {
-    return i.request
+	return i.request
 }
 
 func (i *CommonItem) Response() Message {
-    return i.response
+	return i.response
 }
