@@ -1,6 +1,6 @@
 # crud
 
-[中文](https://github.com/kelvinkuo/crud/README_CHINESE.md)
+[中文](https://github.com/kelvinkuo/crud/blob/main/README_CHINESE.md)
 [ENGLISH](https://github.com/kelvinkuo/crud)
 
 ## intro
