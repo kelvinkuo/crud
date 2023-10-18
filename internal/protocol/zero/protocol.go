@@ -25,8 +25,8 @@ func (p *Protocol) String() string {
 	builder := strings.Builder{}
 	builder.WriteString(fmt.Sprintf("syntax = \"%s\"\n", p.Syntax))
 	builder.WriteString(fmt.Sprintf("info (\n"))
-	builder.WriteString(fmt.Sprintf("%sauthor: %s\n", tools.Blank(consts.IndentZero), p.author))
-	builder.WriteString(fmt.Sprintf("%sdate: %s\n", tools.Blank(consts.IndentZero), p.date.Format(time.DateOnly)))
+	builder.WriteString(fmt.Sprintf("%sauthor: \"%s\"\n", tools.Blank(consts.IndentZero), p.author))
+	builder.WriteString(fmt.Sprintf("%sdate: \"%s\"\n", tools.Blank(consts.IndentZero), p.date.Format(time.DateOnly)))
 	builder.WriteString(fmt.Sprintf(")\n\n"))
 	builder.WriteString("\n//----------------------types define----------------------\n")
 	msgs := make([]protocol.Message, 0, len(p.Messages))
